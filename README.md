@@ -1,0 +1,1 @@
+Playing a little with typeclasses and final tagless pattern.

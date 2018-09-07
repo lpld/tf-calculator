@@ -3,6 +3,8 @@ package com.github.lpld.tfcalc
 import scala.language.higherKinds
 
 /**
+  * Simple calculator algebra that supports basic operations: addition, subtraction, multiplication.
+  *
   * @author leopold
   * @since 6/09/18
   */
@@ -24,20 +26,20 @@ object Calculator {
 
   def apply[F[_]](implicit C: Calculator[F]): Calculator[F] = C
 
+  /**
+    * Implicits for Calculator algebra that will allow us to construct expressions in a readable manner:
+    * {{{1.n + 2.n * 5.n}}}
+    */
   object ops {
 
-    implicit class IntOps[F[_] : Calculator](i: Int) {
-      def n: F[Int] = Calculator[F].num(i)
+    implicit class IntOps[F[_]](i: Int)(implicit C: Calculator[F]) {
+      def n: F[Int] = C.num(i)
     }
 
-    implicit class CalcOps[F[_] : Calculator](f: F[Int]) {
-      def +(f2: F[Int]): F[Int] = Calculator[F].plus(f, f2)
-
-      def -(f2: F[Int]): F[Int] = Calculator[F].minus(f, f2)
-
-      def *(f2: F[Int]): F[Int] = Calculator[F].mult(f, f2)
+    implicit class CalcOps[F[_]](f: F[Int])(implicit C: Calculator[F]) {
+      def +(f2: F[Int]) = C.plus(f, f2)
+      def -(f2: F[Int]) = C.minus(f, f2)
+      def *(f2: F[Int]) = C.mult(f, f2)
     }
-
   }
-
 }

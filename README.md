@@ -1,1 +1,1 @@
-Playing a little with typeclasses and final tagless pattern.
+Playing a little with Scala typeclasses and tagless final pattern.
